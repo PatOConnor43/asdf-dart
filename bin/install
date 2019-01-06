@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -eu
+[ "${BASH_VERSINFO[0]}" -ge 3 ] && set -o pipefail
+
+get_platform () {
+    local platform="$(uname | tr '[:upper:]' '[:lower:]')"
+
+    case "$platform" in
+        linux|darwin|freebsd)
+            echo "Platform '${platform}' supported!" >&2
+            ;;
+        *)
+            echo "Platform '${platform}' not supported!" >&2
+            exit 1
+            ;;
+    esac
+
+    echo -n $platform
+}
+
+get_arch () {
+    local arch=""
+
+    case "$(uname -m)" in
+        x86_64|amd64) arch="x64"; ;;
+        i686|i386) arch="ia32"; ;;
+        *)
+            echo "Arch '$(uname -m)' not supported!" >&2
+            exit 1
+            ;;
+    esac
+
+    echo -n $arch
+}
+
+my_mktemp () {
+    local tempdir=""
+    if [ "linux" = "$1" ] ; then
+        tempdir=$(mktemp -d asdf-dart.XXXX)
+    else
+        tempdir=$(mktemp -dt asdf-dart.XXXX)
+    fi
+    echo -n $tempdir
+}
+
+install_dart () {
+    local install_type=$1
+    local version=$2
+    local install_path=$3
+    local platform=$(get_platform)
+    local arch=$(get_arch)
+    local tempdir=$(my_mktemp $platform)
+    
+    echo $install_type
+    echo $version
+    echo $install_path
+    echo $platform
+    echo $arch
+    echo $tempdir
+
+    URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/sdk/dartsdk-${platform}-${arch}-release.zip"
+    echo $URL
+    curl $URL -o "${tempdir}/archive.zip"
+
+    unzip "${tempdir}/archive.zip" -d "$install_path"
+
+    rm -rf "${tempdir}"
+}
+
+install_dart $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
