@@ -1,4 +1,3 @@
 if [ "$DART_SDK" = "" ]; then
-  echo $ASDF_INSTALL_PATH
   export DART_SDK=$ASDF_INSTALL_PATH/dart-sdk
 fi
