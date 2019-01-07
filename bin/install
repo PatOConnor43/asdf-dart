@@ -58,11 +58,29 @@ install_dart () {
     echo $arch
     echo $tempdir
 
+    # install the sdk
     URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/sdk/dartsdk-${platform}-${arch}-release.zip"
+    echo "Installing Dart SDK..."
     echo $URL
-    curl $URL -o "${tempdir}/archive.zip"
+    curl $URL -o "${tempdir}/sdk.zip"
 
-    unzip "${tempdir}/archive.zip" -d "$install_path"
+    # install content_shell
+    URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/dartium/content_shell-${platform}-${arch}-release.zip"
+    echo "Installing Content Shell..."
+    echo $URL
+    curl $URL -o "${tempdir}/content_shell.zip"
+
+    # install dartium
+    URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/dartium/dartium-${platform}-${arch}-release.zip"
+    echo "Installing Dartium..."
+    echo $URL
+    curl $URL -o "${tempdir}/dartium.zip"
+
+    unzip "${tempdir}/sdk.zip" -d "$install_path"
+    unzip "${tempdir}/content_shell.zip" -d "$install_path"
+    unzip "${tempdir}/dartium.zip" -d "$install_path"
+    DARTIUM_DIR=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
+    mv $install_path/$DARTIUM_DIR/chrome $install_path/$DARTIUM_DIR/dartium
 
     rm -rf "${tempdir}"
 }

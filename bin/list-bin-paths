@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-echo -n "dart-sdk/bin"
+# content_shell
+echo $ASDF_INSTALL_PATH
+CONTENT_SHELL_DIR=$(ls $ASDF_INSTALL_PATH | grep "drt-")
+DARTIUM_DIR=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
+
+echo -n "dart-sdk/bin $CONTENT_SHELL $DARTIUM_DIR"
