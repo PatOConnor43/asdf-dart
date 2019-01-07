@@ -63,7 +63,7 @@ install_dart () {
     echo $URL
     curl $URL -o "${tempdir}/sdk.zip"
 
-    if [ allow_extras -eq 1 ]; then
+    if [ $allow_extras -eq "1" ]; then
         # install content_shell
         URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/dartium/content_shell-${platform}-${arch}-release.zip"
         echo "Installing Content Shell..."
@@ -71,7 +71,7 @@ install_dart () {
         curl $URL -o "${tempdir}/content_shell.zip"
     fi
 
-    if [ allow_extras -eq 1 ]; then
+    if [ $allow_extras -eq "1" ]; then
         # install dartium
         URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/dartium/dartium-${platform}-${arch}-release.zip"
         echo "Installing Dartium..."
@@ -80,7 +80,7 @@ install_dart () {
     fi
 
     unzip "${tempdir}/sdk.zip" -d "$install_path"
-    if [ allow_extras -eq 1 ]; then
+    if [ $allow_extras -eq "1" ]; then
         unzip "${tempdir}/content_shell.zip" -d "$install_path"
         unzip "${tempdir}/dartium.zip" -d "$install_path"
         DARTIUM_DIR=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
