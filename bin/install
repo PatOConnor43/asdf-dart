@@ -85,10 +85,13 @@ install_dart () {
         curl $URL -o "${tempdir}/dartium.zip"
     fi
 
-    unzip "${tempdir}/sdk.zip" -d "$install_path"
+    echo "Unzipping Dart SDK to $install_path..."
+    unzip "${tempdir}/sdk.zip" -d "$install_path" > /dev/null 2>&1
     if [ $allow_extras -eq "1" ]; then
-        unzip "${tempdir}/content_shell.zip" -d "$install_path"
-        unzip "${tempdir}/dartium.zip" -d "$install_path"
+        echo "Unzipping Content Shell to $install_path..."
+        unzip "${tempdir}/content_shell.zip" -d "$install_path" > /dev/null 2>&1
+        echo "Unzipping Dartium to $install_path..."
+        unzip "${tempdir}/dartium.zip" -d "$install_path" > /dev/null 2>&1
         DARTIUM_DIR=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
         mv $install_path/$DARTIUM_DIR/chrome $install_path/$DARTIUM_DIR/dartium
     fi
