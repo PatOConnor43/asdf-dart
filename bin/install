@@ -6,8 +6,14 @@ get_platform () {
     local platform="$(uname | tr '[:upper:]' '[:lower:]')"
 
     case "$platform" in
-        linux|darwin|freebsd)
+        linux|freebsd)
             echo "Platform '${platform}' supported!" >&2
+            # no need to change the platform variable
+            ;;
+        darwin)
+            echo "Platform '${platform}' supported!" >&2
+            # update platform to fit what is expected in url
+            local platform="macos"
             ;;
         *)
             echo "Platform '${platform}' not supported!" >&2
