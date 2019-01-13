@@ -84,9 +84,7 @@ install_dart () {
         echo "Installing Content Shell..."
         echo $URL
         curl $URL -o "${tempdir}/content_shell.zip"
-    fi
 
-    if [ $allow_extras -eq "1" ]; then
         # install dartium
         URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/dartium/dartium-${platform}-${arch}-release.zip"
         echo "Installing Dartium..."
@@ -95,14 +93,19 @@ install_dart () {
     fi
 
     echo "Unzipping Dart SDK to $install_path..."
-    unzip "${tempdir}/sdk.zip" -d "$install_path" > /dev/null 2>&1
+    unzip -d "$install_path" "$tempdir/sdk.zip" > /dev/null 2>&1
     if [ $allow_extras -eq "1" ]; then
         echo "Unzipping Content Shell to $install_path..."
-        unzip "${tempdir}/content_shell.zip" -d "$install_path" > /dev/null 2>&1
+        unzip -d "$install_path" "$tempdir/content_shell.zip" > /dev/null 2>&1
         echo "Unzipping Dartium to $install_path..."
-        unzip "${tempdir}/dartium.zip" -d "$install_path" > /dev/null 2>&1
-        DARTIUM_DIR=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
-        mv $install_path/$DARTIUM_DIR/chrome $install_path/$DARTIUM_DIR/dartium
+        unzip -d "$install_path" "$tempdir/dartium.zip" > /dev/null 2>&1
+        local dartium_dir=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
+        # default linux path
+        local dartium_path="chrome"
+        if [ "$platform" = "macos" ]; then
+            dartium_path="Chromium.app/Contents/MacOS/Chromium"
+        fi
+        mv $install_path/$dartium_dir/$dartium_path $install_path/$dartium_dir/dartium
     fi
 
     rm -rf "${tempdir}"
