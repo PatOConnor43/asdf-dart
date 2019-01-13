@@ -99,13 +99,13 @@ install_dart () {
         unzip -d "$install_path" "$tempdir/content_shell.zip" > /dev/null 2>&1
         echo "Unzipping Dartium to $install_path..."
         unzip -d "$install_path" "$tempdir/dartium.zip" > /dev/null 2>&1
-        local dartium_dir=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
+        local dartium_dir=$(ls $install_path | grep "dartium-")
         # default linux path
         if [ "$platform" = "macos" ]; then
             echo "open $install_path/$dartium_dir/Chromium.app" >> $install_path/$dartium_dir/chrome
             chmod +x $install_path/$dartium_dir/chrome
             # content_shell is an .app in OSX so we should link that here
-            local content_shell_dir=$(ls $ASDF_INSTALL_PATH | grep "drt-")
+            local content_shell_dir=$(ls $install_path | grep "drt-")
             echo "open $install_path/$content_shell_dir/Content\ Shell.app" >> $install_path/$content_shell_dir/content_shell
             chmod +x $install_path/$content_shell_dir/content_shell
         fi

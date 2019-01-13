@@ -1,3 +1,0 @@
-if [ "$DART_SDK" = "" ]; then
-  export DART_SDK=$ASDF_INSTALL_PATH/dart-sdk
-fi
