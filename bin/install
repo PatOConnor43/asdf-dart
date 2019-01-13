@@ -101,11 +101,11 @@ install_dart () {
         unzip -d "$install_path" "$tempdir/dartium.zip" > /dev/null 2>&1
         local dartium_dir=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
         # default linux path
-        local dartium_path="chrome"
         if [ "$platform" = "macos" ]; then
-            dartium_path="Chromium.app/Contents/MacOS/Chromium"
+            echo "open $install_path/$dartium_dir/Chromium.app" >> $install_path/$dartium_dir/chrome
+            chmod +x $install_path/$dartium_dir/chrome
         fi
-        mv $install_path/$dartium_dir/$dartium_path $install_path/$dartium_dir/dartium
+        ln -s $install_path/$dartium_dir/chrome $install_path/$dartium_dir/dartium
     fi
 
     rm -rf "${tempdir}"
