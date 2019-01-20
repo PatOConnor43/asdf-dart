@@ -40,12 +40,7 @@ get_arch () {
 }
 
 my_mktemp () {
-    local tempdir=""
-    if [ "linux" = "$1" ] ; then
-        tempdir=$(mktemp -d asdf-dart.XXXX)
-    else
-        tempdir=$(mktemp -d asdf-dart.XXXX)
-    fi
+    local tempdir=$(mktemp -d asdf-dart.XXXX)
     echo -n $tempdir
 }
 
@@ -100,16 +95,14 @@ install_dart () {
         echo "Unzipping Dartium to $install_path..."
         unzip -d "$install_path" "$tempdir/dartium.zip" > /dev/null 2>&1
         local dartium_dir=$(ls $install_path | grep "dartium-")
-        # default linux path
+        local content_shell_dir=$(ls $install_path | grep "drt-")
         if [ "$platform" = "macos" ]; then
-            echo "open $install_path/$dartium_dir/Chromium.app" >> $install_path/$dartium_dir/chrome
-            chmod +x $install_path/$dartium_dir/chrome
-            # content_shell is an .app in OSX so we should link that here
-            local content_shell_dir=$(ls $install_path | grep "drt-")
-            echo "open $install_path/$content_shell_dir/Content\ Shell.app" >> $install_path/$content_shell_dir/content_shell
-            chmod +x $install_path/$content_shell_dir/content_shell
+            ln -s $install_path/$dartium_dir/Chromium.app/Contents/MacOS/Chromium $install_path/$dartium_dir/dartium
+            ln -s $install_path/$content_shell_dir/Content\ Shell.app/Contents/MacOS/Content\ Shell $install_path/$content_shell_dir/content_shell
+        else
+            ln -s $install_path/$dartium_dir/chrome $install_path/$dartium_dir/dartium
+            # content_shell should already be available without making an explicit link
         fi
-        ln -s $install_path/$dartium_dir/chrome $install_path/$dartium_dir/dartium
     fi
 
     rm -rf "${tempdir}"
