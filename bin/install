@@ -97,7 +97,8 @@ install_dart () {
         local dartium_dir=$(ls $install_path | grep "dartium-")
         local content_shell_dir=$(ls $install_path | grep "drt-")
         if [ "$platform" = "macos" ]; then
-            ln -s $install_path/$dartium_dir/Chromium.app/Contents/MacOS/Chromium $install_path/$dartium_dir/dartium
+            echo "open $install_path/$dartium_dir/Chromium.app" >> $install_path/$dartium_dir/dartium
+            chmod +x $install_path/$dartium_dir/dartium
             ln -s $install_path/$content_shell_dir/Content\ Shell.app/Contents/MacOS/Content\ Shell $install_path/$content_shell_dir/content_shell
         else
             ln -s $install_path/$dartium_dir/chrome $install_path/$dartium_dir/dartium
