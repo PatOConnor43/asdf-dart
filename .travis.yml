@@ -1,5 +1,7 @@
 language: c
-script: asdf plugin-test dart .
+script:
+  - asdf plugin-test dart $TRAVIS_BUILD_DIR 'dart --version'
+
 before_script:
   - git clone https://github.com/asdf-vm/asdf.git
   - . asdf/asdf.sh
