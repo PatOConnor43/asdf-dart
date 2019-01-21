@@ -1,11 +1,6 @@
 language: c
 script:
-  - asdf plugin-test dart $TRAVIS_BUILD_DIR 'dart --version' --asdf-tool-version 1.24.3
-  - asdf global dart 1.24.3
-  # assert dart executables are available
-  - which dart
-  - which dartium
-  - which content_shell
+  - asdf plugin-test dart $TRAVIS_BUILD_DIR 'dart --version'
 
 before_script:
   - git clone https://github.com/asdf-vm/asdf.git
