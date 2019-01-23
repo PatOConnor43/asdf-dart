@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-rm $HOME/.asdf/shims/dartium $HOME/.asdf/shims/content_shell
-asdf reshim dart $2

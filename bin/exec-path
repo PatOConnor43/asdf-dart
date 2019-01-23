@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Usage:
+#   plugin/bin/exec-path <install-path> <command> <executable-path>
+
+# Example Call:
+#   ~/.asdf/plugins/foo/bin/exec-path "~/.asdf/installs/foo/1.0" "foo" "bin/foo"
+
+# Output:
+#   bin/foox
+
+exec-path_dart () {
+    local install_path=$1
+    local command=$2
+    local executable_path=$3
+    rm debug
+    touch debug
+
+    echo $install_path >> debug
+    echo $command >> debug
+    echo $executable_path >> debug
+
+    local executable=$(echo $executable_path | rev | cut -d "/" -f2 | rev)
+    echo $executable >> debug
+    echo -n $3
+}
+
+exec-path_dart $1 $2 $3
