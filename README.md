@@ -21,6 +21,17 @@ Check the [asdf](https://github.com/asdf-vm/asdf) readme for instructions on how
 
 All Dart 1 versions come with corresponding versions of `content_shell` and `dartium`. Since Dart 2 doesn't use these tools, they aren't included. For more information on tooling differences, check out [the docs](https://webdev.dartlang.org/dart-2).
 
+## Using in your favorite IDE/Editor
+Dart plugins for IntelliJ, VS Code, etc., typically need you to provide a path where the Dart SDK is installed.
+Using asdf installs Dart in a consistent place, but may be confusing if you don't know where that is.
+The install location can be found by running `asdf where dart`, which should be `$HOME/.asdf/installs/dart/VERSION`
+Continuously updating this path can get annoying between upgrades or if you're doing work between Dart 1 and 2.
+Because of this I added a script to this repo (`tools/dart_version_watcher.sh`) that will create a file watcher
+for any time your global versions change and then update a symlink that points to the current version.
+This means you can point your IDE at `${HOME}/.asdf_dart_sdk` and anytime you change versions, this file
+will point to the most recent version. If you're interested check the [install instructions](./tools/README.md)
+inside the `tools/` directory.
+
 ## Known Issues
 
 Occasionally when switching between Dart 1 and Dart 2, the `dartium` and `content_shell` shims can break. When trying to use them they'll report `No such command in <version> of dart`. To fix this, you can delete the `dartium` and `content_shell` shims from `$HOME/.asdf/shims` and then recreate the shims by running `asdf reshim dart <version>`.
