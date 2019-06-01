@@ -13,6 +13,6 @@ Add the script to your `.bashrc`|`.zshrc`|`config.fish` to guarantee it runs on 
 
 **Example**
 
-echo "./${HOME}/.asdf/plugins/dart/tools/dart_version_watcher.sh" >> ${HOME}/.zshrc
+echo "bash ${HOME}/.asdf/plugins/dart/tools/dart_version_watcher.sh" >> ${HOME}/.zshrc
 
 
