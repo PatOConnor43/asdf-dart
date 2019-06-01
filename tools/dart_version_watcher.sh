@@ -9,6 +9,6 @@ fs_watch_instances=$(ps | grep "fswatch ${HOME}/.tool-versions" | wc -l | tr -d 
 fswatch ${HOME}/.tool-versions | while read event
 do
     rm -f ${HOME}/.asdf_dart_sdk && ln -s $(asdf where dart)/dart-sdk ${HOME}/.asdf_dart_sdk
-done
+done &
 
 
