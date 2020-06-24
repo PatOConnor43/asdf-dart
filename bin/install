@@ -53,22 +53,32 @@ install_dart () {
     local tempdir=$(my_mktemp $platform)
     local allow_extras=0
     local major_version=$(echo $version | cut -d "." -f1)
+    # supported channels are "stable", "beta" and "dev"
+    local channel="stable"
 
-    echo "$install_type"
-    echo "$version"
-    echo "$install_path"
-    echo "$platform"
-    echo "$arch"
-    echo "$tempdir"
-    echo "$allow_extras"
-    echo "$major_version"
+    echo "Version: $version"
+    echo "Install Path: $install_path"
+    echo "Platform: $platform"
+    echo "Architecture: $arch"
+    echo "Downloading to temp directory $tempdir"
+    echo "Include Extras: $allow_extras"
+    echo "Major Dart Version: $major_version"
 
     if [ $major_version -lt "2" ]; then
         allow_extras=1
     fi
 
+    # Check if this is a beta version
+    if [ "${version: -5}" == ".beta" ]; then
+        channel="beta"
+    fi
+    # Check if this is a dev version
+    if [[ $version == *"dev"* ]]; then
+        channel="dev"
+    fi
+
     # install the sdk
-    URL="https://storage.googleapis.com/dart-archive/channels/stable/release/${version}/sdk/dartsdk-${platform}-${arch}-release.zip"
+    URL="https://storage.googleapis.com/dart-archive/channels/${channel}/release/${version}/sdk/dartsdk-${platform}-${arch}-release.zip"
     echo "Installing Dart SDK..."
     echo $URL
     curl $URL -o "${tempdir}/sdk.zip"
