@@ -32,7 +32,7 @@ get_arch () {
         i686|i386) arch="ia32"; ;;
         *)
             echo "Arch '$(uname -m)' not supported!" >&2
-            exit 1
+            exit 2
             ;;
     esac
 
@@ -42,6 +42,14 @@ get_arch () {
 my_mktemp () {
     local tempdir=$(mktemp -d asdf-dart.XXXX)
     echo -n $tempdir
+}
+
+validate_unzip () {
+    if ! command -v unzip &> /dev/null && ! command -v 7z &> /dev/null
+    then
+        echo "Missing zip decompresser. This plugin relies on either 7z or unzip."
+        exit 3
+    fi
 }
 
 install_dart () {
@@ -63,6 +71,7 @@ install_dart () {
     echo "Downloading to temp directory $tempdir"
     echo "Include Extras: $allow_extras"
     echo "Major Dart Version: $major_version"
+    validate_unzip
 
     if [ $major_version -lt "2" ]; then
         allow_extras=1
@@ -98,7 +107,13 @@ install_dart () {
     fi
 
     echo "Unzipping Dart SDK to $install_path..."
-    unzip -d "$install_path" "$tempdir/sdk.zip" > /dev/null 2>&1
+    if command -v unzip &> /dev/null
+    then
+        unzip -d "$install_path" "$tempdir/sdk.zip" > /dev/null 2>&1
+    else
+        7z x "$tempdir/sdk.zip" -o"$install_path" > /dev/null 2>&1
+    fi
+
     if [ $allow_extras -eq "1" ]; then
         echo "Unzipping Content Shell to $install_path..."
         unzip -d "$install_path" "$tempdir/content_shell.zip" > /dev/null 2>&1

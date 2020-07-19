@@ -4,7 +4,7 @@ dart plugin for [asdf version manager](https://github.com/asdf-vm/asdf)
 
 ## Requirements
 - `curl`
-- `unzip` (apt-get install unzip)
+- `unzip` or `7z` to decompress the downloaded zip
 
 
 ## Install
@@ -15,7 +15,7 @@ asdf plugin-add dart https://github.com/patoconnor43/asdf-dart.git
 
 ## Use
 
-Check the [asdf](https://github.com/asdf-vm/asdf) readme for instructions on how to install & manage versions of dart.
+Check the [asdf](https://github.com/asdf-vm/asdf) README for instructions on how to install & manage versions of dart.
 
 ## Installation differences between Dart 1 and Dart 2
 
@@ -32,15 +32,14 @@ This means you can point your IDE at `${HOME}/.asdf_dart_sdk` and anytime you ch
 will point to the most recent version. If you're interested check the [install instructions](./tools/README.md)
 inside the `tools/` directory.
 
-## Known Issues
-
-Occasionally when switching between Dart 1 and Dart 2, the `dartium` and `content_shell` shims can break. When trying to use them they'll report `No such command in <version> of dart`. To fix this, you can delete the `dartium` and `content_shell` shims from `$HOME/.asdf/shims` and then recreate the shims by running `asdf reshim dart <version>`.
-
 ## Included Shims
 
-- `dart`
 - `dart2js`
+- `dart2native`
+- `dart`
 - `dartanalyzer`
+- `dartaotruntime`
+- `dartdevc`
 - `dartdevc`
 - `dartdoc`
 - `dartfmt`
