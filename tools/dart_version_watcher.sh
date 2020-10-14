@@ -1,14 +1,21 @@
 #!/bin/bash
 set -o nounset                              # Treat unset variables as an error
 
-fs_watch_instances=$(ps | grep "fswatch ${HOME}/.tool-versions" | wc -l | tr -d "[:blank:]")
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+pidfile=${script_dir}/version_watcher_pid
 
 # verify we only have one watcher running
-[ "$fs_watch_instances" -gt "1" ] && exit
+[ -f "$pidfile" ] && exit
 
-fswatch ${HOME}/.tool-versions | while read event
+# 2 processes start in the background here. The inner process is the fswatch
+# process that is waiting for file events. The outer process is waiting for
+# the fswatch to finish so that it can remove the pid file.
+(fswatch ${HOME}/.tool-versions | while read event
 do
     rm -f ${HOME}/.asdf_dart_sdk && ln -s $(asdf where dart)/dart-sdk ${HOME}/.asdf_dart_sdk
 done &
-
+echo $! > "$pidfile"
+wait
+rm -f $pidfile
+) &
 
