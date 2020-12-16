@@ -5,23 +5,33 @@ BASE_URL="https://www.googleapis.com/storage/v1/b/dart-archive/o?prefix=channels
 BETA_URL="https://www.googleapis.com/storage/v1/b/dart-archive/o?prefix=channels/beta/release/&delimiter=/"
 DEV_URL="https://www.googleapis.com/storage/v1/b/dart-archive/o?prefix=channels/dev/release/&delimiter=/"
 
+BETA_VERSIONS=""
+DEV_VERSIONS=""
+
 BASE_VERSIONS=$(curl --silent $BASE_URL \
     | grep "channels/stable/release/[[:digit:]]*\.[[:digit:]]*\.[[:digit:]]*" \
     | rev \
     | cut -d "/" -f2 \
     | rev)
 
-BETA_VERSIONS=$(curl --silent $BETA_URL \
-    | grep "channels/beta/release/.*\.beta" \
-    | rev \
-    | cut -d "/" -f2 \
-    | rev)
+if [ "${ASDF_DART_ENABLE_BETA:-true}" == "true" ]; then
+    BETA_VERSIONS=$(curl --silent $BETA_URL \
+        | grep "channels/beta/release/.*\.beta" \
+        | rev \
+        | cut -d "/" -f2 \
+        | rev)
+fi
 
-DEV_VERSIONS=$(curl --silent $DEV_URL \
-    | grep "channels/dev/release/.*dev.*" \
-    | rev \
-    | cut -d "/" -f2 \
-    | rev)
-VERSIONS=$(echo $DEV_VERSIONS $BETA_VERSIONS $BASE_VERSIONS | sort)
+if [ "${ASDF_DART_ENABLE_DEV:-true}" == "true" ]; then
+    DEV_VERSIONS=$(curl --silent $DEV_URL \
+        | grep "channels/dev/release/.*dev.*" \
+        | rev \
+        | cut -d "/" -f2 \
+        | rev)
+fi
+
+# Pipe the versions through tr to get proper version sorting, otherwise the echoed
+# variables will all appear on a single line.
+VERSIONS=$(echo $DEV_VERSIONS $BETA_VERSIONS $BASE_VERSIONS | tr " " '\n' | sort -V)
 
 echo $VERSIONS

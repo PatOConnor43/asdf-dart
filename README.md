@@ -17,6 +17,17 @@ asdf plugin-add dart https://github.com/patoconnor43/asdf-dart.git
 
 Check the [asdf](https://github.com/asdf-vm/asdf) README for instructions on how to install & manage versions of dart.
 
+## Customization
+The Dart team releases a lot of beta and dev versions publicly for people to try
+out. This can be frustrating if you're just trying to install the latest dart
+version though. If you would like to prevent fetching versions from these
+channels, you can set:
+```
+ASDF_DART_ENABLE_BETA=false
+ASDF_DART_ENABLE_DEV=false
+```
+These environment variables will ensure only the base versions are included.
+
 ## Installation differences between Dart 1 and Dart 2
 
 All Dart 1 versions come with corresponding versions of `content_shell` and `dartium`. Since Dart 2 doesn't use these tools, they aren't included. For more information on tooling differences, check out [the docs](https://webdev.dartlang.org/dart-2).
@@ -44,6 +55,7 @@ inside the `tools/` directory.
 - `dartdoc`
 - `dartfmt`
 - `pub`
+- `and many more...`
 - `content_shell` (Dart 1 exclusive)
 - `dartium` (Dart 1 exclusive)
 
