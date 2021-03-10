@@ -18,13 +18,13 @@ asdf plugin-add dart https://github.com/patoconnor43/asdf-dart.git
 Check the [asdf](https://github.com/asdf-vm/asdf) README for instructions on how to install & manage versions of dart.
 
 ## Customization
-The Dart team releases a lot of beta and dev versions publicly for people to try
-out. This can be frustrating if you're just trying to install the latest dart
-version though. If you would like to prevent fetching versions from these
-channels, you can set:
+The default behavior for this plugin used to include `dev` and `beta` versions
+when listing all the versions. This got really noisy and interfered with 
+`asdf install dart latest` installing the latest stable version. If you want
+to re-enable these channels you can set these environment variables.
 ```
-ASDF_DART_ENABLE_BETA=false
-ASDF_DART_ENABLE_DEV=false
+ASDF_DART_ENABLE_BETA=true
+ASDF_DART_ENABLE_DEV=true
 ```
 These environment variables will ensure only the base versions are included.
 
