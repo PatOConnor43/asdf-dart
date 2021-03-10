@@ -14,7 +14,7 @@ BASE_VERSIONS=$(curl --silent $BASE_URL \
     | cut -d "/" -f2 \
     | rev)
 
-if [ "${ASDF_DART_ENABLE_BETA:-true}" == "true" ]; then
+if [ "${ASDF_DART_ENABLE_BETA:-false}" == "true" ]; then
     BETA_VERSIONS=$(curl --silent $BETA_URL \
         | grep "channels/beta/release/.*\.beta" \
         | rev \
@@ -22,7 +22,7 @@ if [ "${ASDF_DART_ENABLE_BETA:-true}" == "true" ]; then
         | rev)
 fi
 
-if [ "${ASDF_DART_ENABLE_DEV:-true}" == "true" ]; then
+if [ "${ASDF_DART_ENABLE_DEV:-false}" == "true" ]; then
     DEV_VERSIONS=$(curl --silent $DEV_URL \
         | grep "channels/dev/release/.*dev.*" \
         | rev \
