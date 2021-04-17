@@ -17,7 +17,6 @@ get_platform () {
             ;;
         *)
             echo "Platform '${platform}' not supported!" >&2
-            exit 1
             ;;
     esac
 
@@ -28,11 +27,10 @@ get_arch () {
     local arch=""
 
     case "$(uname -m)" in
-        x86_64|amd64) arch="x64"; ;;
+        x86_64|amd64|arm64) arch="x64"; ;;
         i686|i386) arch="ia32"; ;;
         *)
             echo "Arch '$(uname -m)' not supported!" >&2
-            exit 2
             ;;
     esac
 
@@ -57,7 +55,14 @@ install_dart () {
     local version=$2
     local install_path=$3
     local platform=$(get_platform)
+    if [ "$platform"  == "" ]; then
+        exit 1
+    fi
     local arch=$(get_arch)
+    if [ "$arch"  == "" ]; then
+        exit 2
+    fi
+
     local tempdir=$(my_mktemp $platform)
     local allow_extras=0
     local major_version=$(echo $version | cut -d "." -f1)
@@ -72,6 +77,9 @@ install_dart () {
     echo "Include Extras: $allow_extras"
     echo "Major Dart Version: $major_version"
     validate_unzip
+    if [ "$?" -gt 0 ]; then
+        exit 3
+    fi
 
     if [ $major_version -lt "2" ]; then
         allow_extras=1
