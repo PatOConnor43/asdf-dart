@@ -38,6 +38,24 @@ get_arch () {
     echo -n $arch
 }
 
+# Dart has support for MacOS arm starting with 2.14.1 . This function will echo
+# the desired version and the first version that supports arm. These dot separated
+# versions will then be passed to sort and the lowest version will be first in the
+# list. If the lowest version is 2.14.1, then we can use the M1 binary. If it's not
+# we have to use the x64 version.
+fix_macos () {
+    local version="$1"
+    local armversion="2.14.1"
+    local lowest=`echo "$armversion
+$version" | sort -t '.' -k 1,1 -k 2,2 -k 3,3 -g | head -n1`
+    if [ "$lowest" == "$armversion" ]; then
+        echo -n "arm64"
+        return
+    fi
+    echo -n "x64"
+    return
+}
+
 my_mktemp () {
     local tempdir=$(mktemp -d asdf-dart.XXXX)
     echo -n $tempdir
@@ -55,6 +73,9 @@ install_dart () {
     local install_type=$1
     local version=$2
     local install_path=$3
+    local major_version=$(echo $version | cut -d "." -f1)
+    local minor_version=$(echo $version | cut -d "." -f2)
+    local patch_version=$(echo $version | cut -d "." -f3)
     local platform=$(get_platform)
     if [ "$platform"  == "" ]; then
         exit 1
@@ -64,9 +85,13 @@ install_dart () {
         exit 2
     fi
 
+    # fix arch if pulling a version of dart less than 2.14.1
+    if [ "$arch" == "arm64" ] && [ "$platform" == "darwin" ]; then
+        arch=$(fix_macos "$version")
+    fi
+
     local tempdir=$(my_mktemp $platform)
     local allow_extras=0
-    local major_version=$(echo $version | cut -d "." -f1)
     # supported channels are "stable", "beta" and "dev"
     local channel="stable"
 
@@ -77,6 +102,8 @@ install_dart () {
     echo "Downloading to temp directory $tempdir"
     echo "Include Extras: $allow_extras"
     echo "Major Dart Version: $major_version"
+    echo "Minor Dart Version: $minor_version"
+    echo "Patch Dart Version: $patch_version"
     validate_unzip
     if [ "$?" -gt 0 ]; then
         exit 3
