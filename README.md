@@ -59,6 +59,11 @@ inside the `tools/` directory.
 - `content_shell` (Dart 1 exclusive)
 - `dartium` (Dart 1 exclusive)
 
+## Changelog
+### July 27 2022
+The plugin has been updated to properly download arm versions of the Dart SDK.
+If you're unsure if you're using the arm version you can `asdf uninstall dart <version>` and then re-install.
+
 ## Contributing
 
 Feel free to create an issue or pull request if you find a bug.
