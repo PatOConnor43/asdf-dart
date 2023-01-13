@@ -27,7 +27,8 @@ get_arch () {
     local arch=""
 
     case "$(uname -m)" in
-        x86_64|amd64|arm64) arch="x64"; ;;
+        x86_64|amd64) arch="x64"; ;;
+        arm64) arch="arm64"; ;;
         i686|i386) arch="ia32"; ;;
         *)
             echo "Arch '$(uname -m)' not supported!" >&2
@@ -92,6 +93,20 @@ install_dart () {
     # Check if this is a dev version
     if [[ $version == *"dev"* ]]; then
         channel="dev"
+    fi
+
+    # Special handing for M1 mac. Only version > 2.14.2 have arm versions available. Installing an earlier version should use x64.
+    if [ $arch = "arm64" ] && [ $platform = "macos" ]; then
+        URL="https://storage.googleapis.com/dart-archive/channels/${channel}/release/${version}/sdk/dartsdk-${platform}-${arch}-release.zip"
+        echo "Checking if arm version exists..."
+        echo $URL
+        local status=`curl --silent --write-out '%{http_code}' --output /dev/null -X HEAD "https://storage.googleapis.com/dart-archive/channels/${channel}/release/${version}/sdk/dartsdk-${platform}-${arch}-release.zip"`
+        if [ $status -eq "200" ]; then
+            echo "Found arm version"
+        else
+            echo "Could not find arm binary for version: ${version}. Defaulting to x64 version..."
+            arch="x64"
+        fi
     fi
 
     # install the sdk
