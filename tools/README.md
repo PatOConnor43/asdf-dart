@@ -3,7 +3,7 @@
 ## tools/dart_version_watcher.sh
 This tool provides an automated way to keep your Dart SDK path up-to-date.
 
-**Dependecies**
+**Dependencies**
 
 [fswatch](https://github.com/emcrisostomo/fswatch) - fswatch is a multi-platform file system notifier.
 
