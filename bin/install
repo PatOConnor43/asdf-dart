@@ -131,7 +131,7 @@ install_dart () {
 
     echo "Unzipping Dart SDK to $install_path..."
     # Remove top level directory from zip
-    ln -s . dart-sdk
+    ln -s . "$install_path/dart-sdk"
     if command -v unzip &> /dev/null
     then
         unzip -d "$install_path" "$tempdir/sdk.zip" > /dev/null 2>&1
@@ -140,7 +140,7 @@ install_dart () {
     fi
 
     # Remove symlink
-    rm dart-sdk
+    rm -r "$install_path/dart-sdk"
 
     if [ $allow_extras -eq "1" ]; then
         echo "Unzipping Content Shell to $install_path..."
