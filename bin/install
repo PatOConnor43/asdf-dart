@@ -39,7 +39,7 @@ get_arch () {
 }
 
 my_mktemp () {
-    local tempdir=$(mktemp -d asdf-dart.XXXX)
+    local tempdir=$(mktemp -d asdf-dart.XXXXXX)
     echo -n $tempdir
 }
 
