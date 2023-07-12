@@ -19,7 +19,7 @@ Check the [asdf](https://github.com/asdf-vm/asdf) README for instructions on how
 
 ## Customization
 The default behavior for this plugin used to include `dev` and `beta` versions
-when listing all the versions. This got really noisy and interfered with 
+when listing all the versions. This got really noisy and interfered with
 `asdf install dart latest` installing the latest stable version. If you want
 to re-enable these channels you can set these environment variables.
 ```
@@ -58,6 +58,30 @@ inside the `tools/` directory.
 - `and many more...`
 - `content_shell` (Dart 1 exclusive)
 - `dartium` (Dart 1 exclusive)
+
+## Working with multiple SDKs
+If you're using this plugin it's probably because you're using multiple
+versions of the Dart SDK. This means you also want to be able to use different
+versions of the language server. This is easy enough in Vim/Neovim by getting
+the language server path by running `asdf where dart`. In VSCode, you'll
+probably want to use the `dart.sdkPaths` setting. This will allow you to add a
+path where your SDKs are located and then switch them on the fly. An example
+value for this setting is `<an absolute path to your asdf
+folder>/installs/dart`. If you hover over the Dart Syntax Switcher in the
+bottom right of the editor you should see a way to change which SDK you want to
+use.
+
+<img width="346" alt="A screenshot showing a popup menu when hovering over the
+syntax selector in VSCode. There is a label that shows the current Dart version
+and a button that says 'change'."
+src="https://github.com/PatOConnor43/asdf-dart/assets/6657525/c82b9974-a121-4fb8-b35a-6d590bf0db7c">
+
+*IMPORTANT NOTE: If there are versions of the SDK that are installed, but don't
+show up in the menu, you should be able to uninstall and re-install those
+versions. This is due to a path change that was necessary to facilitate this
+feature.*
+
+Shoutout to @Rapougnac for bringing this up!
 
 ## Contributing
 

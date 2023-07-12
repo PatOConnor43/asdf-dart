@@ -3,4 +3,4 @@
 CONTENT_SHELL_DIR=$(ls $ASDF_INSTALL_PATH | grep "drt-")
 DARTIUM_DIR=$(ls $ASDF_INSTALL_PATH | grep "dartium-")
 
-echo -n "dart-sdk/bin $CONTENT_SHELL_DIR $DARTIUM_DIR"
+echo -n "bin dart-sdk/bin $CONTENT_SHELL_DIR $DARTIUM_DIR"
