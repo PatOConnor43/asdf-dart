@@ -10,12 +10,12 @@ dart plugin for [asdf version manager](https://github.com/asdf-vm/asdf)
 ## Install
 
 ```
-asdf plugin-add dart https://github.com/patoconnor43/asdf-dart.git
+asdf plugin add dart https://github.com/patoconnor43/asdf-dart.git
 ```
 
 ## Use
 
-Check the [asdf](https://github.com/asdf-vm/asdf) README for instructions on how to install & manage versions of dart.
+Check the [asdf instructions](https://asdf-vm.com/guide/getting-started.html#_5-install-a-version) for how to install and set your Dart version.
 
 ## Customization
 The default behavior for this plugin used to include `dev` and `beta` versions
