@@ -28,10 +28,6 @@ ASDF_DART_ENABLE_DEV=true
 ```
 These environment variables will ensure only the base versions are included.
 
-## Installation differences between Dart 1 and Dart 2
-
-All Dart 1 versions come with corresponding versions of `content_shell` and `dartium`. Since Dart 2 doesn't use these tools, they aren't included. For more information on tooling differences, check out [the docs](https://webdev.dartlang.org/dart-2).
-
 ## Using in your favorite IDE/Editor
 
 Dart plugins for IntelliJ, VS Code, etc., typically need you to provide a path where the Dart SDK is installed.
